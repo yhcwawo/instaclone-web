@@ -11,6 +11,9 @@
 # production
 /build
 
+# typescript codegen interface
+/__generated__
+
 # misc
 .DS_Store
 .env.local
