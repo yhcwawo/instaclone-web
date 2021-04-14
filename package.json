@@ -24,6 +24,7 @@
     "react-hook-form": "^7.0.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
+    "sanitize-html": "^2.3.3",
     "styled-reset": "^4.3.4",
     "typescript": "^4.2.3",
     "web-vitals": "^1.1.1"
@@ -54,6 +55,7 @@
   },
   "devDependencies": {
     "@types/history": "^4.7.3",
-    "@types/react-router-dom": "^5.1.7"
+    "@types/react-router-dom": "^5.1.7",
+    "@types/sanitize-html": "^1.27.2"
   }
 }

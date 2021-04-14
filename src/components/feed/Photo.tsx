@@ -8,9 +8,11 @@ import {
 import { faHeart as SolidHeart } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import Avatar from "../Avatar";
 import { FatText } from "../shared";
+import Comments from "./Comments";
 
 const TOGGLE_LIKE_MUTATION = gql`
   mutation toggleLike($id: Int!) {
@@ -71,18 +73,60 @@ const Likes = styled(FatText)`
   display: block;
 `;
 
-function Photo({ id, user, file, isLike, likes } : any) {
-  const [toggleLikeMutation, {data, loading }] = useMutation(TOGGLE_LIKE_MUTATION, {
+function Photo({
+  id,
+  user,
+  file,
+  isLike,
+  likes,
+  caption,
+  commentNumber,
+  comments,
+}: any )  {
+  const updateToggleLike = (cache : any, result : any) => {
+    
+    const {
+      data: {
+        toggleLike: { ok },
+      },
+    } = result;
+
+    if (ok) {
+      const photoId = `Photo:${id}`;
+      cache.modify({
+        id: photoId,
+        fields: {
+          isLike(prev : any) {
+            return !prev;
+          },
+          likes(prev : any) {
+            if (isLike) {
+              return prev - 1;
+            }
+            return prev + 1;
+          },
+
+        },
+      });
+    }
+  };
+
+  const [toggleLikeMutation] = useMutation(TOGGLE_LIKE_MUTATION, {
     variables: {
       id,
     },
+    update: updateToggleLike,
   });
 
   return (
     <PhotoContainer key={id}>
       <PhotoHeader>
-        <Avatar url={user.avatar} />
-        <Username>{user.username}</Username>
+          <Link to={`/users/${user.username}`}>
+            <Avatar url={user.avatar} />
+          </Link>
+          <Link to={`/users/${user.username}`}>
+            <Username>{user.username}</Username>
+          </Link>
       </PhotoHeader>
       <PhotoFile src={file} />
       <PhotoData>
@@ -107,6 +151,13 @@ function Photo({ id, user, file, isLike, likes } : any) {
           </div>
         </PhotoActions>
         <Likes>{likes === 1 ? "1 like" : `${likes} likes`}</Likes>
+          <Comments
+            photoId={id}
+            author={user.username}
+            caption={caption}
+            commentNumber={commentNumber}
+            comments={comments}
+          />
       </PhotoData>
     </PhotoContainer>
   );
@@ -121,5 +172,9 @@ Photo.propTypes = {
   file: PropTypes.string.isRequired,
   isLike: PropTypes.bool.isRequired,
   likes: PropTypes.number.isRequired,
+  caption: PropTypes.string,
+  commentNumber: PropTypes.number.isRequired,
+  comments: PropTypes.arrayOf(PropTypes.shape({})),
+
 };
 export default Photo;

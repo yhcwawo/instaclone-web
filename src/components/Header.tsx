@@ -20,14 +20,6 @@ const SHeader = styled.header`
   justify-content: center;
 `;
 
-const Btn = styled.span`
-  background-color: ${(props) => props.theme.accent};
-  color: white;
-  border-radius: 4px;
-  padding: 5px 15px;
-  font-weight: 600;
-`;
-
 const Button = styled.span`
   background-color: ${(props) => props.theme.accent};
   border-radius: 4px;
@@ -58,6 +50,7 @@ const IconsContainer = styled.div`
 function Header() {
   const isLoggedIn = useReactiveVar(isLoggedInVar);
   const { data } = useUser();
+
   return (
     <SHeader>
       <Wrapper>
@@ -74,7 +67,9 @@ function Header() {
                 <FontAwesomeIcon icon={faCompass} size="lg" />
               </Icon>
               <Icon>
-                <Avatar url={data?.me?.avatar} />
+                <Link to={`/users/${data?.me?.username}`}>
+                  <Avatar url={data?.me?.avatar} />
+                </Link>
               </Icon>
               </IconsContainer>
           ) : (

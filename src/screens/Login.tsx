@@ -41,7 +41,6 @@ import { logUserIn } from "../apollo";
     username: string;
     password: string;
     result: string;
-
   };
 
   function Login() {
