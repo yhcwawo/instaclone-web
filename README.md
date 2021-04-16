@@ -1,10 +1,9 @@
 # we-ding-Web
 
-- [v] Router
-- [v] Authentication
-- [v] Arch.
-- [v] Styles
-- [ ] Log In / Sign Up
-- [ ] Feed
-- [ ] Profile
-- [ ] See Hashtag
+- [x] Router
+- [x] Authentication
+- [x] Arch.
+- [x] Styles
+- [x] Log In / Sign Up
+- [x] Feed
+- [x] Profile
